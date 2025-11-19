@@ -1,0 +1,289 @@
+# Git Workflow Guide - CSE 546 Final Project
+
+## 🚀 Quick Start
+
+### First Time Setup
+```bash
+# Clone the repository
+git clone https://github.com/whowhoswhom/CSE-546-Final_ProjectV1.git
+cd CSE-546-Final_ProjectV1
+
+# Run setup script
+chmod +x setup.sh
+./setup.sh
+
+# Or manually set up
+git init
+git remote add origin https://github.com/whowhoswhom/CSE-546-Final_ProjectV1.git
+```
+
+## 📁 Branch Structure
+
+```
+main
+├── development (main working branch)
+├── feature/preprocessing
+├── feature/classifiers  
+├── feature/ensemble
+├── exp/[experiment-name] (temporary experiment branches)
+├── report/report1
+└── report/final
+```
+
+## 🔄 Daily Workflow
+
+### Starting Work
+```bash
+# Always start from development branch
+git checkout development
+git pull origin development
+
+# Create experiment branch
+git checkout -b exp/knn-optimization
+```
+
+### During Work
+```bash
+# Check status frequently
+git status
+
+# Stage specific files
+git add notebooks/03_individual_classifiers.ipynb
+git add results/classifiers/knn_results.pkl
+
+# Or stage all changes in a directory
+git add results/figures/
+
+# Commit with meaningful message
+git commit -m "[EXP] KNN: Optimal k=7 with distance weights, CV acc=83.4%"
+```
+
+### After Experiment
+```bash
+# Push experiment branch
+git push origin exp/knn-optimization
+
+# Switch back to development
+git checkout development
+
+# Merge successful experiment
+git merge exp/knn-optimization
+
+# Delete experiment branch (optional)
+git branch -d exp/knn-optimization
+```
+
+## 📝 Commit Message Format
+
+### Structure
+```
+[TYPE] Component: Description (metrics if applicable)
+```
+
+### Types & Examples
+```bash
+# Feature implementation
+git commit -m "[FEAT] Preprocessing: Add RobustScaler comparison"
+
+# Experiment with results
+git commit -m "[EXP] SVM: RBF kernel C=10 achieves 86.2% CV accuracy"
+
+# Bug fix
+git commit -m "[FIX] Cross-validation: Correct fold indices in stratification"
+
+# Documentation update
+git commit -m "[DOC] Report1: Add learning curve analysis section"
+
+# Figure/Plot generation
+git commit -m "[PLOT] Ensemble: Add correlation heatmap Figure 8"
+
+# Optimization
+git commit -m "[OPT] Pipeline: Cache preprocessing steps for 3x speedup"
+```
+
+## 🏷️ Tagging Important Milestones
+
+```bash
+# Tag baseline completion
+git tag -a baseline-v1 -m "Baseline KNN: 73.5% accuracy without preprocessing"
+
+# Tag best model versions
+git tag -a best-knn-v1 -m "Best KNN: k=7, distance weights, 83.4% accuracy"
+git tag -a best-svm-v1 -m "Best SVM: RBF C=10 gamma=scale, 86.2% accuracy"
+
+# Tag report submissions
+git tag -a report1-submission -m "Report 1 submitted Nov 21"
+git tag -a final-submission -m "Final submission Dec 5"
+
+# Push tags to GitHub
+git push origin --tags
+```
+
+## 📊 Typical Experiment Workflow
+
+```bash
+# 1. Start new experiment
+git checkout development
+git checkout -b exp/random-forest
+
+# 2. Run experiment and save results
+# ... work in notebooks/Cursor ...
+
+# 3. Track results
+git add results/classifiers/rf_*.pkl
+git add results/figures/rf_*.png
+git add notebooks/03_individual_classifiers.ipynb
+
+# 4. Commit with metrics
+git commit -m "[EXP] RF: n_estimators=100, max_depth=20, CV acc=85.1%"
+
+# 5. Push and create PR if needed
+git push origin exp/random-forest
+
+# 6. Merge if successful
+git checkout development
+git merge exp/random-forest
+git push origin development
+```
+
+## 🔍 Useful Git Commands
+
+### View History
+```bash
+# See commit history
+git log --oneline -10
+
+# See commits for specific file
+git log --follow notebooks/03_individual_classifiers.ipynb
+
+# See what changed
+git diff HEAD~1
+
+# View specific commit
+git show abc1234
+```
+
+### Working with Changes
+```bash
+# Discard changes in working directory
+git checkout -- notebooks/test.ipynb
+
+# Unstage files
+git reset HEAD results/temp.pkl
+
+# Undo last commit (keep changes)
+git reset --soft HEAD~1
+
+# Stash work temporarily
+git stash
+git stash pop
+```
+
+### Checking Repository Status
+```bash
+# See all branches
+git branch -a
+
+# See remote info
+git remote -v
+
+# See all tags
+git tag -l
+
+# Check file sizes (useful before committing)
+git ls-files -s | sort -k3 -n -r | head -10
+```
+
+## 📋 Pre-Submission Checklist
+
+### Before Report 1 Submission
+```bash
+# 1. Ensure all experiments are committed
+git status
+
+# 2. Tag the submission version
+git tag -a report1-final -m "Report 1 final version"
+
+# 3. Push everything
+git push origin development
+git push origin --tags
+
+# 4. Create backup branch
+git checkout -b backup/report1-nov21
+git push origin backup/report1-nov21
+```
+
+### Before Final Submission
+```bash
+# 1. Merge all work to main
+git checkout main
+git merge development
+
+# 2. Tag final version
+git tag -a final-v1 -m "Final submission Dec 5, 2024"
+
+# 3. Push to GitHub
+git push origin main
+git push origin --tags
+
+# 4. Verify on GitHub
+# Go to: https://github.com/whowhoswhom/CSE-546-Final_ProjectV1
+```
+
+## ⚠️ Important Rules
+
+### DO's ✅
+- Commit frequently (after each successful experiment)
+- Write descriptive commit messages with metrics
+- Use branches for experiments
+- Tag important milestones
+- Pull before starting work
+
+### DON'Ts ❌
+- Don't commit large data files (use .gitignore)
+- Don't commit model files unless they're final
+- Don't force push to main or development
+- Don't commit broken code
+- Don't commit sensitive information
+
+## 🆘 Troubleshooting
+
+### Large File Issues
+```bash
+# If you accidentally committed a large file
+git rm --cached large_file.pkl
+git commit -m "[FIX] Remove large file from tracking"
+
+# Use git-lfs for large files if needed
+git lfs track "*.pkl"
+```
+
+### Merge Conflicts
+```bash
+# If you have conflicts
+git status  # See conflicted files
+
+# Edit files to resolve conflicts
+# Then:
+git add resolved_file.py
+git commit -m "[FIX] Resolve merge conflict in preprocessing"
+```
+
+### Reverting Changes
+```bash
+# Revert a specific commit
+git revert abc1234
+
+# Reset to previous state (CAREFUL!)
+git reset --hard HEAD~1
+```
+
+## 📚 Resources
+
+- [Git Documentation](https://git-scm.com/doc)
+- [GitHub Guides](https://guides.github.com/)
+- [Atlassian Git Tutorial](https://www.atlassian.com/git/tutorials)
+
+---
+
+*Remember: Commit early, commit often, and always include metrics in experiment commits!*
