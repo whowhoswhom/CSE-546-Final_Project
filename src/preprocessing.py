@@ -32,11 +32,14 @@ def load_data(data_path='data/'):
     class_names : array
         Array of class names
     """
-    X_train = pd.read_csv(f'{data_path}flower_train_features.csv', header=None)
-    y_train = pd.read_csv(f'{data_path}flower_train_labels.csv', header=None).values.ravel()
-    filenames = pd.read_csv(f'{data_path}flower_train_filenames.csv', header=None)
+    X_train = pd.read_csv(f'{data_path}flower_train_features.csv')
+    y_train = pd.read_csv(f'{data_path}flower_train_labels.csv')['label'].values
+    filenames = pd.read_csv(f'{data_path}flower_train_filenames.csv')
     label_mapping = pd.read_csv(f'{data_path}flower_label_mapping.csv')
     class_names = label_mapping['class_name'].values
+    
+    # Verify data shapes
+    print(f"Loaded: {X_train.shape[0]} samples, {X_train.shape[1]} features")
     
     return X_train, y_train, filenames, label_mapping, class_names
 
