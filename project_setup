@@ -1,0 +1,341 @@
+# Final Project Setup Guide
+
+## Recommended Project Structure
+
+```
+flower_classification_project/
+│
+├── data/
+│   ├── flower_train_features.csv
+│   ├── flower_train_labels.csv
+│   ├── flower_train_filenames.csv
+│   ├── flower_label_mapping.csv
+│   └── test_features.csv  # (when provided Dec 3)
+│
+├── notebooks/
+│   ├── 01_data_exploration.ipynb
+│   ├── 02_preprocessing_experiments.ipynb
+│   ├── 03_individual_classifiers.ipynb
+│   ├── 04_ensemble_methods.ipynb
+│   ├── 05_final_model_selection.ipynb
+│   └── 06_test_predictions.ipynb
+│
+├── src/
+│   ├── __init__.py
+│   ├── preprocessing.py      # Preprocessing functions
+│   ├── classifiers.py        # Classifier implementations
+│   ├── evaluation.py         # Evaluation metrics and plots
+│   ├── ensemble.py           # Ensemble methods
+│   └── utils.py             # Utility functions
+│
+├── results/
+│   ├── preprocessing/        # Preprocessing experiment results
+│   ├── classifiers/         # Individual classifier results
+│   ├── ensemble/            # Ensemble method results
+│   └── figures/             # All figures for report
+│
+├── models/
+│   ├── best_model.pkl       # Final selected model
+│   └── checkpoint_models/   # Intermediate saved models
+│
+├── reports/
+│   ├── report1/             # First report materials
+│   └── final_report/        # Final report materials
+│
+├── docs/
+│   ├── task.md
+│   ├── rules.md
+│   ├── project_requirements.md
+│   └── experiment_log.md    # Track all experiments
+│
+└── requirements.txt         # Python dependencies
+```
+
+## Initial Setup Commands
+
+```bash
+# Create project structure
+mkdir -p flower_classification_project/{data,notebooks,src,results/{preprocessing,classifiers,ensemble,figures},models/checkpoint_models,reports/{report1,final_report},docs}
+
+# Move data files
+mv flower_*.csv flower_classification_project/data/
+
+# Copy documentation
+cp task.md rules.md project_requirements.md flower_classification_project/docs/
+
+# Create Python package structure
+touch flower_classification_project/src/__init__.py
+
+# Install required packages
+pip install numpy pandas matplotlib seaborn scikit-learn joblib tqdm
+```
+
+## Workflow with Cursor
+
+### Step 1: Project Initialization in Cursor
+1. Open project folder in Cursor
+2. Create `.cursorrules` file with project context
+3. Add all documentation files to Cursor's context
+
+### Step 2: Cursor Configuration (.cursorrules)
+```
+Project: CSE 546 ML Final Project - Flower Classification
+Task: 5-class classification with 512 features
+Requirements: See docs/rules.md and docs/task.md
+Style: Academic, first-person, numbered figures
+Constraints: Only use scikit-learn, 4-fold CV, pipelines
+Focus: Understanding over performance, systematic approach
+```
+
+### Step 3: Experiment Tracking
+Create an experiment log to track all attempts:
+
+```markdown
+# Experiment Log
+
+## Experiment 1: Baseline
+- Date: [Date]
+- Method: KNN (k=5) without preprocessing
+- CV Accuracy: X.XX
+- Notes: Establishing baseline
+
+## Experiment 2: Normalization Comparison
+- Date: [Date]
+- Scalers tested: Standard, MinMax, Robust
+- Best: [Scaler] with [Classifier]
+- Improvement: +X.XX%
+```
+
+## Development Workflow
+
+### Phase 1: Data Understanding (Days 1-2)
+```python
+# In notebook 01_data_exploration.ipynb
+- Load all data files
+- Verify dimensions and types
+- Check class distribution
+- Identify class imbalance
+- Basic statistics
+- Initial visualizations
+```
+
+### Phase 2: Preprocessing (Days 3-4)
+```python
+# In notebook 02_preprocessing_experiments.ipynb
+- Implement normalization comparison
+- Run PCA analysis
+- Test feature selection methods
+- Save results for comparison
+```
+
+### Phase 3: Classifier Development (Days 5-8)
+```python
+# In notebook 03_individual_classifiers.ipynb
+- Implement each classifier separately
+- Use consistent CV strategy
+- Generate all required plots
+- Save models and results
+```
+
+### Phase 4: Ensemble Methods (Days 9-10)
+```python
+# In notebook 04_ensemble_methods.ipynb
+- Correlation analysis
+- Stacking implementation
+- AdaBoost optimization
+- Compare with individuals
+```
+
+### Phase 5: Report Writing (Days 11-14)
+- Compile all figures
+- Write analysis
+- Create recording
+- Final review
+
+## Code Templates for Consistency
+
+### Standard Imports Block
+```python
+# Standard imports for all notebooks
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+warnings.filterwarnings('ignore')
+
+# Set random seed
+RANDOM_STATE = 42
+np.random.seed(RANDOM_STATE)
+
+# Set plotting style
+plt.style.use('seaborn-v0_8-darkgrid')
+sns.set_palette("husl")
+
+# Configure display
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', 100)
+```
+
+### Standard Evaluation Function
+```python
+def evaluate_model(model, X, y, cv, model_name="Model"):
+    """Standard evaluation function for all models"""
+    from sklearn.model_selection import cross_validate
+    
+    scores = cross_validate(
+        model, X, y, cv=cv,
+        scoring=['accuracy', 'roc_auc_ovr', 'f1_macro'],
+        return_train_score=True,
+        n_jobs=-1
+    )
+    
+    results = {
+        'model': model_name,
+        'train_acc': scores['train_accuracy'].mean(),
+        'val_acc': scores['test_accuracy'].mean(),
+        'train_acc_std': scores['train_accuracy'].std(),
+        'val_acc_std': scores['test_accuracy'].std(),
+        'roc_auc': scores['test_roc_auc_ovr'].mean(),
+        'f1_macro': scores['test_f1_macro'].mean(),
+        'overfit_gap': scores['train_accuracy'].mean() - scores['test_accuracy'].mean()
+    }
+    
+    return results, scores
+```
+
+### Figure Saving Template
+```python
+def save_figure(fig, name, report_num=1):
+    """Save figure with consistent naming"""
+    fig.savefig(f'results/figures/report{report_num}_{name}.png', 
+                dpi=300, bbox_inches='tight')
+    print(f"Figure saved: report{report_num}_{name}.png")
+```
+
+## Integration with Cursor AI
+
+### Prompting Strategy for Cursor
+
+1. **For Implementation**:
+   ```
+   Implement [specific method] following the requirements in docs/rules.md
+   Use 4-fold CV, pipeline approach, and save results
+   ```
+
+2. **For Analysis**:
+   ```
+   Analyze the results showing overfitting analysis, fold consistency,
+   and parameter impact. Generate Figure X: [Description]
+   ```
+
+3. **For Debugging**:
+   ```
+   Debug this code considering the constraints in docs/rules.md
+   Ensure compatibility with scikit-learn pipeline
+   ```
+
+## Version Control
+
+### Git Setup
+```bash
+git init
+git add .gitignore  # Add standard Python gitignore
+git add -A
+git commit -m "Initial project setup"
+
+# Create backup branch before major changes
+git checkout -b experiment_preprocessing
+```
+
+### .gitignore
+```
+# Data files (large)
+*.csv
+!flower_label_mapping.csv
+
+# Models
+*.pkl
+*.joblib
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Reports
+*.docx
+*.pptx
+~$*
+
+# OS
+.DS_Store
+Thumbs.db
+```
+
+## Quick Reference Commands
+
+### Data Loading
+```python
+# Standard data loading block
+X_train = pd.read_csv('data/flower_train_features.csv', header=None)
+y_train = pd.read_csv('data/flower_train_labels.csv', header=None).values.ravel()
+filenames = pd.read_csv('data/flower_train_filenames.csv', header=None)
+label_map = pd.read_csv('data/flower_label_mapping.csv')
+class_names = label_map['class_name'].values
+```
+
+### Cross-Validation Setup
+```python
+from sklearn.model_selection import StratifiedKFold
+cv = StratifiedKFold(n_splits=4, shuffle=True, random_state=42)
+```
+
+### Pipeline Template
+```python
+from sklearn.pipeline import Pipeline
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('dim_reduction', PCA(n_components=100)),
+    ('classifier', SVC(random_state=42))
+])
+```
+
+## Success Checklist
+
+### For Report 1 (Nov 21)
+- [ ] Baseline model complete
+- [ ] 2 normalization methods compared
+- [ ] PCA analysis with 2 options
+- [ ] Feature selection with 2 options  
+- [ ] 2+ classifiers fully optimized
+- [ ] Learning curves generated
+- [ ] Overfitting analysis complete
+- [ ] Fold consistency checked
+- [ ] All figures numbered
+- [ ] 7-8 pages written
+
+### For Final Report (Dec 5)
+- [ ] All 4 classifiers optimized
+- [ ] Correlation analysis complete
+- [ ] Stacking classifier implemented
+- [ ] AdaBoost implemented
+- [ ] ROC curves for all classes
+- [ ] Confusion matrices generated
+- [ ] Error analysis complete
+- [ ] Best model selected and justified
+- [ ] Recording completed (<15 min)
+- [ ] All files ready (no ZIP!)
+
+## Tips for Working with Cursor
+
+1. **Context Window Management**: Keep docs/ files open in sidebar
+2. **Iterative Development**: Test small chunks before combining
+3. **Use Comments**: Explain decisions for future reference
+4. **Save Frequently**: Both code and results
+5. **Document Parameters**: Track what you've tried
+
+This setup ensures efficient collaboration between you, Cursor, and Claude throughout the project!
