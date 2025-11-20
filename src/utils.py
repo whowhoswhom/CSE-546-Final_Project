@@ -111,12 +111,12 @@ def log_experiment(exp_num, description, config, results, log_file='experiment_t
   - Accuracy: {results.get('val_acc', 'N/A'):.4f}
   - ROC-AUC: {results.get('roc_auc', 'N/A'):.4f}
   - F1-Score: {results.get('f1_macro', 'N/A'):.4f}
-- **Status**: ✅ Completed
+- **Status**: Completed
 
 ---
 """
     
-    with open(log_file, 'a') as f:
+    with open(log_file, 'a', encoding='utf-8') as f:
         f.write(log_entry)
     
     print(f"Experiment {exp_num:03d} logged to {log_file}")
