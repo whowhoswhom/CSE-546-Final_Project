@@ -58,7 +58,7 @@ scalers = {
 
 classifiers = {
     'KNN (k=7)': KNeighborsClassifier(n_neighbors=7),
-    'SVM (RBF)': SVC(C=1.0, kernel='rbf', random_state=RANDOM_STATE)
+    'SVM (RBF)': SVC(C=1.0, kernel='rbf', random_state=RANDOM_STATE, probability=True)
 }
 
 normalization_results = []
@@ -244,12 +244,12 @@ for n_comp in n_components_list:
         pipeline = Pipeline([
             ('scaler', best_scaler),
             ('pca', PCA(n_components=n_comp, random_state=RANDOM_STATE)),
-            ('classifier', SVC(C=1.0, kernel='rbf', random_state=RANDOM_STATE))
+            ('classifier', SVC(C=1.0, kernel='rbf', random_state=RANDOM_STATE, probability=True))
         ])
     else:
         pipeline = Pipeline([
             ('pca', PCA(n_components=n_comp, random_state=RANDOM_STATE)),
-            ('classifier', SVC(C=1.0, kernel='rbf', random_state=RANDOM_STATE))
+            ('classifier', SVC(C=1.0, kernel='rbf', random_state=RANDOM_STATE, probability=True))
         ])
     
     scores = cross_validate(
@@ -340,12 +340,12 @@ for k in k_values:
             pipeline = Pipeline([
                 ('scaler', best_scaler),
                 ('feature_selection', SelectKBest(score_func=score_func, k=k)),
-                ('classifier', SVC(C=1.0, kernel='rbf', random_state=RANDOM_STATE))
+                ('classifier', SVC(C=1.0, kernel='rbf', random_state=RANDOM_STATE, probability=True))
             ])
         else:
             pipeline = Pipeline([
                 ('feature_selection', SelectKBest(score_func=score_func, k=k)),
-                ('classifier', SVC(C=1.0, kernel='rbf', random_state=RANDOM_STATE))
+                ('classifier', SVC(C=1.0, kernel='rbf', random_state=RANDOM_STATE, probability=True))
             ])
         
         scores = cross_validate(
