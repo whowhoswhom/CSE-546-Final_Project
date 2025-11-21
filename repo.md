@@ -1,19 +1,22 @@
 # CSE 546 Final Project - Repository Overview
+
 ## Flower Classification with Machine Learning
 
-**Repository**: https://github.com/whowhoswhom/CSE-546-Final_ProjectV1  
-**Course**: CSE 546 - Introduction to Machine Learning  
-**Professor**: H. Frigui  
-**Semester**: Fall 2024  
+**Repository**: https://github.com/whowhoswhom/CSE-546-Final_ProjectV1
+**Course**: CSE 546 - Introduction to Machine Learning
+**Professor**: H. Frigui
+**Semester**: Fall 2024
 
 ---
 
 ## 🎯 Project Mission
+
 Develop a robust 5-class flower classification system using traditional machine learning techniques, demonstrating deep understanding of preprocessing, optimization, and ensemble methods through systematic experimentation and analysis.
 
 ---
 
 ## 📊 Dataset Overview
+
 - **Training Samples**: 4,065 images (pre-extracted features)
 - **Feature Dimensions**: 512
 - **Classes**: 5 flower types
@@ -98,6 +101,7 @@ CSE-546-Final_ProjectV1/
 ## 🔄 Git Workflow & Version Control
 
 ### Branch Strategy
+
 ```
 main (protected)
 ├── development (active work)
@@ -109,6 +113,7 @@ main (protected)
 ```
 
 ### Commit Convention
+
 ```bash
 # Format: [TYPE] Component: Description
 
@@ -120,6 +125,7 @@ main (protected)
 ```
 
 ### Types:
+
 - `[FEAT]` - New feature/functionality
 - `[FIX]` - Bug fix
 - `[DOC]` - Documentation/report updates
@@ -129,6 +135,7 @@ main (protected)
 - `[TEST]` - Test data predictions
 
 ### Tagging Milestones
+
 ```bash
 git tag -a baseline-complete -m "Baseline KNN: 73.5% accuracy"
 git tag -a report1-submission -m "Report 1 submitted: Nov 21"
@@ -143,6 +150,7 @@ git tag -a final-submission -m "Final submission: Dec 5"
 ### Current Phase: **Preprocessing & Initial Classifiers**
 
 #### Progress Tracker
+
 ```
 Overall Progress: ██████░░░░ 60%
 
@@ -166,18 +174,20 @@ Overall Progress: ██████░░░░ 60%
 ```
 
 ### Key Metrics Dashboard
-| Metric | Baseline | Current Best | Target | Status |
-|--------|----------|--------------|--------|---------|
-| CV Accuracy | 73.5% | 86.2% | 90%+ | 🔄 |
-| ROC-AUC | 0.892 | 0.941 | 0.95+ | 🔄 |
-| F1-Macro | 0.728 | 0.859 | 0.88+ | 🔄 |
-| Overfitting Gap | 15.3% | 3.2% | <5% | ✅ |
+
+| Metric          | Baseline | Current Best | Target | Status |
+| --------------- | -------- | ------------ | ------ | ------ |
+| CV Accuracy     | 73.5%    | 86.2%        | 90%+   | 🔄     |
+| ROC-AUC         | 0.892    | 0.941        | 0.95+  | 🔄     |
+| F1-Macro        | 0.728    | 0.859        | 0.88+  | 🔄     |
+| Overfitting Gap | 15.3%    | 3.2%         | <5%    | ✅     |
 
 ---
 
 ## 🧪 Experiment Registry
 
 ### Best Configurations Found
+
 ```python
 # Best Preprocessing
 Pipeline([
@@ -202,6 +212,7 @@ SVC(
 ```
 
 ### Failed Experiments (Learning Points)
+
 - ❌ PCA with 50 components: Too much information loss
 - ❌ Polynomial kernel degree>3: Overfitting
 - ❌ No scaling with SVM: Poor convergence
@@ -210,19 +221,20 @@ SVC(
 
 ## 📝 Key Deadlines & Deliverables
 
-| Date | Deliverable | Status | Points |
-|------|------------|---------|---------|
+| Date   | Deliverable                | Status         | Points |
+| ------ | -------------------------- | -------------- | ------ |
 | Nov 21 | Report 1 (50% experiments) | 🔄 In Progress | 20 pts |
-| Dec 3 | Test predictions | ⏳ Waiting | 30 pts |
-| Dec 5 | Final report | ⏳ Waiting | 50 pts |
-| Dec 5 | Recording (<15 min) | ⏳ Waiting | - |
-| Dec 5 | Notebook submission | ⏳ Waiting | - |
+| Dec 3  | Test predictions           | ⏳ Waiting     | 30 pts |
+| Dec 5  | Final report               | ⏳ Waiting     | 50 pts |
+| Dec 5  | Recording (<15 min)        | ⏳ Waiting     | -      |
+| Dec 5  | Notebook submission        | ⏳ Waiting     | -      |
 
 ---
 
 ## 🛠️ Development Guidelines
 
 ### For Every New Experiment
+
 1. Create new branch: `git checkout -b exp/experiment-name`
 2. Update `experiment_tracker.md` with configuration
 3. Run experiment and save results to `results/`
@@ -231,6 +243,7 @@ SVC(
 6. Merge to development if successful
 
 ### Before Each Commit
+
 - [ ] Code runs without errors
 - [ ] Results saved to appropriate directory
 - [ ] Experiment logged in tracker
@@ -238,6 +251,7 @@ SVC(
 - [ ] Documentation updated if needed
 
 ### Code Quality Checklist
+
 - [ ] Functions have docstrings
 - [ ] Complex operations commented
 - [ ] Random state set to 42
@@ -250,6 +264,7 @@ SVC(
 ## 🚀 Quick Commands
 
 ### Setup Environment
+
 ```bash
 # Clone repository
 git clone https://github.com/whowhoswhom/CSE-546-Final_ProjectV1.git
@@ -264,6 +279,7 @@ pip install -r requirements.txt
 ```
 
 ### Run Experiments
+
 ```python
 # Standard experiment execution
 python -m notebooks.02_preprocessing_experiments
@@ -274,6 +290,7 @@ python src/evaluation.py --generate-all-figures --output results/figures/report1
 ```
 
 ### Git Operations
+
 ```bash
 # Start new experiment
 git checkout development
@@ -295,16 +312,18 @@ git tag -a report1-ready -m "Report 1 ready for submission"
 ## 📊 Results Summary (Auto-Updated)
 
 ### Latest Experiment Results
-| Exp# | Date | Method | Best Config | CV Acc | Status |
-|------|------|--------|-------------|---------|---------|
-| 001 | 11/15 | Baseline KNN | k=5, no scaling | 73.5% | ✅ |
-| 002 | 11/16 | KNN + StandardScaler | k=7 | 81.2% | ✅ |
-| 003 | 11/16 | KNN + PCA | k=7, n=100 | 83.4% | ✅ |
-| 004 | 11/17 | SVM RBF | C=1, scale | 86.2% | ✅ |
-| 005 | 11/18 | Feature Selection | k=200, f_classif | 82.1% | ✅ |
-| ... | ... | ... | ... | ... | ... |
+
+| Exp# | Date  | Method               | Best Config      | CV Acc | Status |
+| ---- | ----- | -------------------- | ---------------- | ------ | ------ |
+| 001  | 11/15 | Baseline KNN         | k=5, no scaling  | 73.5%  | ✅     |
+| 002  | 11/16 | KNN + StandardScaler | k=7              | 81.2%  | ✅     |
+| 003  | 11/16 | KNN + PCA            | k=7, n=100       | 83.4%  | ✅     |
+| 004  | 11/17 | SVM RBF              | C=1, scale       | 86.2%  | ✅     |
+| 005  | 11/18 | Feature Selection    | k=200, f_classif | 82.1%  | ✅     |
+| ...  | ...   | ...                  | ...              | ...    | ...    |
 
 ### Model Performance Ranking
+
 1. **SVM (RBF)**: 86.2% accuracy, 0.941 ROC-AUC
 2. **KNN (optimized)**: 83.4% accuracy, 0.918 ROC-AUC
 3. **Random Forest**: [Pending]
@@ -324,6 +343,7 @@ git tag -a report1-ready -m "Report 1 ready for submission"
 ## 💡 Context for Cursor AI
 
 ### When Working on This Project:
+
 1. **Always check** `docs/rules.md` for requirements
 2. **Reference** `docs/experiment_tracker.md` for experiment history
 3. **Follow** patterns from successful experiments
@@ -333,6 +353,7 @@ git tag -a report1-ready -m "Report 1 ready for submission"
 7. **Focus on** understanding over raw performance
 
 ### Key Constraints:
+
 - Only scikit-learn (no deep learning)
 - 4-fold cross-validation mandatory
 - Must use pipelines
@@ -341,6 +362,7 @@ git tag -a report1-ready -m "Report 1 ready for submission"
 - Recording maximum 15 minutes
 
 ### Professor's Priorities:
+
 1. Systematic experimentation
 2. Clear justifications for choices
 3. Understanding of overfitting/underfitting
@@ -351,24 +373,27 @@ git tag -a report1-ready -m "Report 1 ready for submission"
 
 ## 📧 Contact & Collaboration
 
-**Project Owner**: Toni (Jose Fuentes)  
-**Course**: CSE 546 - Introduction to Machine Learning  
-**Institution**: University of Louisville  
-**Semester**: Fall 2024  
+**Project Owner**: Toni (Jose Fuentes)
+**Course**: CSE 546 - Introduction to Machine Learning
+**Institution**: University of Louisville
+**Semester**: Fall 2024
 
 ---
 
 ## 📝 Notes Section
 
 ### Current Focus
+
 - Completing preprocessing experiments for Report 1
 - Optimizing KNN and SVM thoroughly
 - Preparing learning curve visualizations
 
 ### Blockers/Issues
+
 - None currently
 
 ### Next Steps
+
 1. Complete feature selection comparison
 2. Finalize KNN optimization
 3. Start Random Forest implementation
@@ -376,5 +401,5 @@ git tag -a report1-ready -m "Report 1 ready for submission"
 
 ---
 
-*Last Updated: November 2024*  
+*Last Updated: November 2024*
 *Auto-sync with experiment_tracker.md for latest results*

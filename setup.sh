@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 
 # CSE 546 Final Project - Repository Setup Script
 # This script initializes the project structure and prepares for development

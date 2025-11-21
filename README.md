@@ -22,27 +22,30 @@ A comprehensive machine learning project implementing multiple classification al
 ### 🛠️ Methods Implemented
 
 #### Preprocessing
+
 - **Normalization**: StandardScaler, MinMaxScaler, RobustScaler
 - **Dimensionality Reduction**: PCA with variance analysis
 - **Feature Selection**: SelectKBest with multiple scoring functions
 
 #### Classifiers
+
 - K-Nearest Neighbors (KNN)
 - Support Vector Machines (SVM) with multiple kernels
 - Random Forest
 - Multi-Layer Perceptron (MLP)
 
 #### Ensemble Methods
+
 - Stacking Classifier with correlation-based model selection
 - AdaBoost with optimized base estimators
 
 ### 📈 Key Results
 
-| Model | CV Accuracy | ROC-AUC | F1-Score |
-|-------|------------|---------|----------|
-| Baseline KNN | 73.5% | 0.892 | 0.728 |
-| Optimized SVM | 86.2% | 0.941 | 0.859 |
-| Best Ensemble | TBD | TBD | TBD |
+| Model         | CV Accuracy | ROC-AUC | F1-Score |
+| ------------- | ----------- | ------- | -------- |
+| Baseline KNN  | 73.5%       | 0.892   | 0.728    |
+| Optimized SVM | 86.2%       | 0.941   | 0.859    |
+| Best Ensemble | TBD         | TBD     | TBD      |
 
 ### 🚀 Quick Start
 
@@ -86,7 +89,7 @@ python notebooks/01_data_exploration.py
 ### 📝 Documentation
 
 - [Task Description](docs/task.md)
-- [Requirements & Rules](docs/rules.md)
+- [Requirements &amp; Rules](docs/rules.md)
 - [Experiment Tracker](docs/experiment_tracker.md)
 - [Project Setup Guide](docs/project_setup.md)
 
