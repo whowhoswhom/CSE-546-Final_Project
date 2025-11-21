@@ -32,15 +32,15 @@ venv.bak/
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
-# Model files (large)
-*.pkl
-*.joblib
+# Model files (large) - but keep results
+models/**/*.pkl
+models/**/*.joblib
 *.h5
 *.pt
 *.pth
 
-# Results (optional - uncomment if results get too large)
-# results/**/*.pkl
+# Results are tracked (needed for experiments)
+# results/**/*.pkl  - We want to track these!
 # results/**/*.joblib
 
 # IDE

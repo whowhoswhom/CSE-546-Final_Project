@@ -336,3 +336,15 @@ MLP     X.XX   X.XX   X.XX  1.00
 ## Notes Section
 
 [Space for additional observations, ideas, or reminders]
+
+## Experiment 001
+- **Date**: 2025-11-20 18:58:04
+- **Description**: Baseline KNN (k=5) without preprocessing
+- **Configuration**: {'n_neighbors': 5, 'weights': 'uniform', 'metric': 'euclidean', 'preprocessing': None}
+- **Results**:
+  - Accuracy: 0.8716
+  - ROC-AUC: 0.9727
+  - F1-Score: 0.8661
+- **Status**: Completed
+
+---
